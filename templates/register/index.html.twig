@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire | La Reserve
+{% endblock %}
+
+{% block body %}
+	<div class="container-xxl box-shadow">
+		<section class="m-5 text-center">
+			<h1 class="mx-auto text-center my-5 mb-0">
+				S'inscrire
+			</h1>
+			<p class="mt-0">Déjà inscrit ?
+				<a href="#">Se connecter</a>
+			</p>
+		</section>
+		<section class="register-section mx-auto my-5 px-5">
+			<div class="d-flex flex-column flex-sm-row justify-content-center mb-5">
+				<figure class="me-3">
+					<img src="" alt="">
+				</figure>
+				<div
+					class="d-flex flex-column align-items-start">
+          {# messages #}
+				</div>
+			</div>
+			{{form_start(form)}}
+			<div class="d-flex flex-column flex-sm-row justify-content-between">
+				<div class="w-100 w-sm-50 ms-sm-2">{{ form_row(form.firstname) }}</div>
+				<div class="w-100 w-sm-50 ms-sm-2">{{ form_row(form.lastname) }}</div>
+			</div>
+			{{form_rest(form)}}
+			<button class="w-100 mb-5 mt-3 btn-primary connect-button text-upppercase" type="submit">Enregistrer</button>
+			{{form_end(form)}}
+		</section>
+	</div>
+{% endblock %}

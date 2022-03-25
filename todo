@@ -1,0 +1,15 @@
+PHASE 1
+Projet mediatheque :
+  ✔ Creer une base de donnée avec Symfony 
+  Entité USER:
+    ✔ creation de l'entité User 
+    ✔ faire la migration de la BDD 
+  Formulaire :
+    ✔ ajouter le bundle Form(pour utiliser les formulaires) 
+    ✔ (facultatif) customiser le RegisterForm 
+  ✔ creation de Fixture( fausses datas (faker)) @done(22-03-25 16:31)
+  Affichage des interfaces fonctionnel :
+    ☐ Connexion
+    ✔ Inscription 
+
+    -------
