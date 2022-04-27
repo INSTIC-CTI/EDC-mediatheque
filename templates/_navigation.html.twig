@@ -1,0 +1,49 @@
+{% set route = app.request.get('_route') %}
+<nav class="navbar navbar-expand-lg navbar-light  {% if route == 'home' or route == 'catalog' %}is-transparent{% endif %}">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('home') }}">
+            <img src="
+            {% if route == 'home' or route == 'catalog' %}{{ asset('build/images/logo-white.png') }}
+            {% else %}{{ asset('build/images/logo-colors.png') }}{% endif %}"
+             alt="Logo de la Réserve de la Chapelle">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
+
+                {% if app.user is not defined%}
+                {#  Quand utilisateur non connecté et non sur la page d'accueil#}
+                <li class="nav-item me-3">
+                    <a class="nav-link {% if route == 'home' or route == 'catalog' %} text-white {% else %} text-body {% endif %}" href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  bg-info rounded-3 text-white" href="{{ path('register') }}">S'inscrire</a>
+                </li>
+
+                {% else %}
+                <li class="nav-item me-3">
+                    <p class="{% if route == 'home' or route == 'catalog' %} text-white {% else %} text-body {% endif %}my-0">Bonjour {{ app.user.firstname }}</p>
+                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle bg-info rounded-3 text-white is-catalog px-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mon compte
+                        </a>
+                        <ul class="dropdown-menu mt-3" aria-labelledby="navbarDropdown">
+                            <li class="text-end my-2"><a class="dropdown-item" href="#">Mes emprunts</a></li>
+                            <li class="text-end my-2"><a class="dropdown-item" href="#">Mon profil</a></li>
+                            <li class="text-end my-2 text-info">
+                                <a class="dropdown-item d-flex justify-content-end text-secondary" href="#">
+                                    <figure class="me-2 my-0">
+                                        <img src="{{ asset('build/images/icon-logout.svg') }}" alt="Icon de déconnexion" width="18" height="18">
+                                    </figure>
+                                    Me déconnecter</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
