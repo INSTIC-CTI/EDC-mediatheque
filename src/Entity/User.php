@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -63,6 +65,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity=BookReservation::class, mappedBy="user")
+     */
+    private $bookReservations;
 
     public function getId(): ?int
     {
@@ -202,5 +209,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct(){
       $this->is_confirmed = false;
       $this->date_inscription = new \DateTime('now');
+      $this->bookReservations = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<int, BookReservation>
+     */
+    public function getBookReservations(): Collection
+    {
+        return $this->bookReservations;
+    }
+
+    public function addBookReservation(BookReservation $bookReservation): self
+    {
+        if (!$this->bookReservations->contains($bookReservation)) {
+            $this->bookReservations[] = $bookReservation;
+            $bookReservation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookReservation(BookReservation $bookReservation): self
+    {
+        if ($this->bookReservations->removeElement($bookReservation)) {
+            // set the owning side to null (unless already changed)
+            if ($bookReservation->getUser() === $this) {
+                $bookReservation->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
