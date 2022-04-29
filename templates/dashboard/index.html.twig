@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard | La Réserve de la Chapelle{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid dashboard">
+        <div class="row col">
+            {{ include ('_dashboard-navigation.html.twig') }}
+            <div class="col mt-3 ms-5">
+                {{ include ('_navigation.html.twig') }}
+
+                {# TITLE OF DASHBOARD]#}
+                <section class="mt-5 pt-5">
+                    <h1 class="mt-5">Bonjour {{ app.user.firstname }}</h1>
+                    <div class="d-flex justify-content-start">
+                        <figure class="me-2"><img src="{{ asset('build/images/icon-info.svg') }}" alt="Icon d'information" width="24" height="24"></figure>
+                        <p>Il y a <span class="fw-bold">{{ users|length }}</span> compte{% if users|length>1 %}s{% endif %} à confirmer aujourd'hui</p>
+                    </div>
+                </section>
+
+                <section class="mt-5 pt-5">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="fw-bold border-0">Nom</th>
+                                <th class="fw-bold border-0">Prénom</th>
+                                <th class="fw-bold border-0">Date d'inscription</th>
+                                <th class="fw-bold border-0">Statut</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td class="border-0">{{ user.lastname }}</td>
+                                    <td class="border-0">{{ user.firstname }}</td>
+                                    <td class="border-0">{{ user.dateInscription ? user.dateInscription|date('d/m/Y') : '' }}</td>
+                                    <td class="border-0">{% if user.isConfirmed == false %}En attente{% endif %}</td>
+                                    <td class="border-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="defaultCheck1" aria-label="default">
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </section>
+
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
