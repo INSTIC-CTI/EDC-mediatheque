@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{book.title}}{% endblock %}
+
+{% block body %}
+    <div class="container-xxl box-shadow is-bg">
+        {{ include ('_navigation.html.twig') }}
+
+        <section class="m-5 p-5">
+            <a class="text-uppercase fw-bold text-decoration-none text-primary" href="{{ path('catalog') }}"> &#60 Retourner au catalogue</a>
+                <div class="d-flex align-items-start mt-5">
+                    <div>
+                        <figure class="book-cover-show me-5 rounded-4">
+                            <img src="{{ vich_uploader_asset(book,'folderImage') }}" alt="Photo de couverture du livre" class="rounded-4">
+                            <div class="book-cover-info">
+                                <p class="text-white fw-bold fs-3 text-end">{{ book.title |capitalize }}</p>
+                                <p class="text-white fw-light text-end">{{ book.author | title }}</p>
+                            </div>
+                            {% if book.isFavorite %}
+                                <svg class="float-start" width="44" height="44" viewBox="0 0 24 24" fill="#8887B9" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20.16 5.00017C19.1 3.93737 17.6948 3.28871 16.1984 3.17134C14.7019 3.05397 13.2128 3.47563 12 4.36017C10.7277 3.4138 9.14402 2.98468 7.56795 3.1592C5.99188 3.33373 4.54047 4.09894 3.506 5.30075C2.47154 6.50256 1.93085 8.05169 1.99283 9.63618C2.05481 11.2207 2.71485 12.7228 3.84003 13.8402L10.05 20.0602C10.57 20.5719 11.2704 20.8588 12 20.8588C12.7296 20.8588 13.43 20.5719 13.95 20.0602L20.16 13.8402C21.3276 12.6654 21.983 11.0764 21.983 9.42017C21.983 7.76389 21.3276 6.1749 20.16 5.00017ZM18.75 12.4602L12.54 18.6702C12.4694 18.7415 12.3853 18.7982 12.2926 18.8368C12.1999 18.8755 12.1005 18.8954 12 18.8954C11.8996 18.8954 11.8002 18.8755 11.7075 18.8368C11.6148 18.7982 11.5307 18.7415 11.46 18.6702L5.25003 12.4302C4.46579 11.6285 4.02664 10.5516 4.02664 9.43017C4.02664 8.3087 4.46579 7.23182 5.25003 6.43017C6.04919 5.64115 7.127 5.19873 8.25003 5.19873C9.37306 5.19873 10.4509 5.64115 11.25 6.43017C11.343 6.52389 11.4536 6.59829 11.5755 6.64906C11.6973 6.69983 11.828 6.72596 11.96 6.72596C12.092 6.72596 12.2227 6.69983 12.3446 6.64906C12.4665 6.59829 12.5771 6.52389 12.67 6.43017C13.4692 5.64115 14.547 5.19873 15.67 5.19873C16.7931 5.19873 17.8709 5.64115 18.67 6.43017C19.4651 7.22132 19.9186 8.29236 19.9336 9.41385C19.9485 10.5353 19.5237 11.6181 18.75 12.4302V12.4602Z"/>
+                                </svg>
+                            {% endif %}
+                            {% if book.isReserved %}
+                                <figure class="is-reserved is-book">
+                                    <img src="{{ asset('build/images/reserved-ribbon.svg') }}" alt="Ruban réservé" width="90" height="31.25">
+                                </figure>
+                            {% endif %}
+                        </figure>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-start book-description-show">
+                        <h1>{{ book.title | capitalize}}</h1>
+                        <h2 class="fw-normal fs-3">{{ book.author | title }}</h2>
+                        <p>Genre :
+                            {% for type in book.type %}
+                                {{ type.name |capitalize }}
+                            {% endfor %}
+                        </p>
+                        <p>Publié le : {{ book.publishedAt ? book.publishedAt|date('d/m/Y') : '' }}</p>
+                        <div class="overflow-scroll pe-3">
+                            <p>{{ book.description | nl2br }}</p>
+                        </div>
+
+                        <button class="btn btn-primary {% if book.isReserved %}disabled{% endif %} text-uppercase px-4" data-bs-toggle="modal" data-bs-target="#modal3">
+                            Je réserve ce livre
+                        </button>
+
+
+                        <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content px-5">
+                                    <div class="modal-header border-0 d-flex flex-column align-items-center mt-3 mb-0 pb-0">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <h2 class="modal-title" id="exampleModalLabel">Confirmer la réservation</h2>
+                                            <figure>
+                                                <img src="{{ asset('build/images/book-reserved.gif') }}" alt="Gif de réservation de livres" width="300" height="300">
+                                            </figure>
+                                        </div>
+                                        <button type="button" class="btn-close is-book" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body mt-0 px-5 pt-0">
+                                        <p>Vous êtes sur le point de réserver ce livre.</p>
+                                        <p>Une fois la réservation confirmée, vous disposez de 72heures pour récupérer votre livre à la Réserve.</p>
+                                        <p>Passé ce délai, le livre sera de nouveau disponible à la réservation pour tout les adhérents.</p>
+                                        <form method="post" action="{{ path('catalog_show_reserved', {'id': book.id}) }}">
+                                            <button class="mb-5 mt-3 w-100 btn btn-primary connect-button text-uppercase" type="submit">Confirmer</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+        </section>
+
+        <section class="m-5 p-5">
+            <h2 class="text-center mb-5">Vous allez aimez ...</h2>
+                <div class="d-flex flex-column flex-md-row flex-md-wrap justify-content-around align-items-center">
+                {% for book in booksFromTypes %}
+                        <a href="{{ path('catalog_show', {'id':book.id}) }}">
+                            <div class="book-cover-show is-catalog">
+                                <figure>
+                                    <img src="{{ vich_uploader_asset(book,'folderImage') }}" alt="Photo de couverture du livre" class="rounded-4">
+                                </figure>
+
+                                {% if book.isReserved %}
+                                    <figure class="is-reserved">
+                                        <img src="{{ asset('build/images/reserved-ribbon.svg') }}" alt="Ruban réservé" width="90" height="31.25">
+                                    </figure>
+                                {% endif %}
+
+                                <div class="book-cover-info">
+                                    <p class="text-white fw-bold text-end">{{ book.title |capitalize }}</p>
+                                    <p class="text-white fw-light text-end">{{ book.author | title }}</p>
+                                </div>
+
+                                {% if book.isFavorite == true %}<svg class="float-start is-catalog" width="25" height="25" viewBox="0 0 24 24" fill="#8887B9" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20.16 5.00017C19.1 3.93737 17.6948 3.28871 16.1984 3.17134C14.7019 3.05397 13.2128 3.47563 12 4.36017C10.7277 3.4138 9.14402 2.98468 7.56795 3.1592C5.99188 3.33373 4.54047 4.09894 3.506 5.30075C2.47154 6.50256 1.93085 8.05169 1.99283 9.63618C2.05481 11.2207 2.71485 12.7228 3.84003 13.8402L10.05 20.0602C10.57 20.5719 11.2704 20.8588 12 20.8588C12.7296 20.8588 13.43 20.5719 13.95 20.0602L20.16 13.8402C21.3276 12.6654 21.983 11.0764 21.983 9.42017C21.983 7.76389 21.3276 6.1749 20.16 5.00017ZM18.75 12.4602L12.54 18.6702C12.4694 18.7415 12.3853 18.7982 12.2926 18.8368C12.1999 18.8755 12.1005 18.8954 12 18.8954C11.8996 18.8954 11.8002 18.8755 11.7075 18.8368C11.6148 18.7982 11.5307 18.7415 11.46 18.6702L5.25003 12.4302C4.46579 11.6285 4.02664 10.5516 4.02664 9.43017C4.02664 8.3087 4.46579 7.23182 5.25003 6.43017C6.04919 5.64115 7.127 5.19873 8.25003 5.19873C9.37306 5.19873 10.4509 5.64115 11.25 6.43017C11.343 6.52389 11.4536 6.59829 11.5755 6.64906C11.6973 6.69983 11.828 6.72596 11.96 6.72596C12.092 6.72596 12.2227 6.69983 12.3446 6.64906C12.4665 6.59829 12.5771 6.52389 12.67 6.43017C13.4692 5.64115 14.547 5.19873 15.67 5.19873C16.7931 5.19873 17.8709 5.64115 18.67 6.43017C19.4651 7.22132 19.9186 8.29236 19.9336 9.41385C19.9485 10.5353 19.5237 11.6181 18.75 12.4302V12.4602Z"/>
+                                </svg>{% endif %}
+                            </div>
+                        </a>
+                {% endfor %}
+                </div>
+        </section>
+    </div>
+{% endblock %}

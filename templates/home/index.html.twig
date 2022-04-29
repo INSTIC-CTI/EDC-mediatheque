@@ -1,102 +1,109 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Bienvenue à la Reserve !
-{% endblock %}
-
+{% block title %}Hello HomeController!{% endblock %}
 {% block body %}
-	<div
-		class="container-xxl box-shadow is-bg">
-		{# incliude partial nav #}
-		<div class="hader d-flex flex-column justify-content-center align-items-center" style="background-image:url('{{asset('images/header-bg.png')}}')">
-			<h1 class="text-center text-light">Réservez vos
-				<span id="typed"></span><br>
-				en un clic</h1>
-			<button class="btn btn-info px-5 mt-5">
-				<a href="#" class="text-white text-decoration-none text-uppercase fw-normal">Je m'inscris</a>
-			</button>
-		</div>
-		{# section INTRO #}
-		<section>
-			<div class="d-flex flex-column justify-content-center align-items-center">
-				<h2 class="text-center m-5">La Reserve,<br>en quelques mots...</h2>
-				<div class="d-flex flex-column align-items-center flex-xl-row justify-content-between px-xl-5 m-md-5">
-					<div class="w-xl-50 me-xl-50">
-						<p class="fw-light">
-							Thestral dirigible plums, Viktor Krum hexed memory charm Animagus Invisibility Cloak three-headed Dog. Half-Blood Prince Invisibility Cloak
-							<strong class="fw-bold">cauldron cakes</strong>, hiya Harry! Basilisk venom Umbridge swiveling blue eye Levicorpus.
-								                        Chasers Winky quills The Boy Who Lived bat spleens
-							<strong class="fw-bold">cupboard under the stairs</strong>
-							flying motorcycle. Sirius Black Holyhead Harpies
-						</p>
-						<p class="fw-light">
-							Pellentesque quis erat arcu. Sed pellentesque feugiat velit, eu lobortis ligula feugiat sed. Duis eu interdum est, ac
-							<strong class="fw-bold">pharetra velit</strong>. In imperdiet pulvinar nunc, dictum ullamcorper tellus dignissim quis.
-						</p>
+    <div class="container-xxl box-shadow is-bg">
+            {{ include ('_navigation.html.twig') }}
+        <div class="header d-flex flex-column justify-content-center align-items-center" style="background-image:url('{{ asset('build/images/header-bg.png') }}')">
+            <h1 class="text-center text-light">Réservez vos romans<br> en un clic</h1>
+            <button type="button" class="btn btn-info px-5 mt-5">
+                <a class="text-white text-decoration-none text-uppercase fw-normal" href="{{ path('app_register') }}">Je m'inscris</a>
+            </button>
+        </div>
+        {# ---------- SECTION INTRO ---------- #}
+        <section>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <h2 class="text-center m-5">La Réserve,
+                <br> en quelques mots ...</h2>
+            <div class="d-flex flex-column  flex-xl-row justify-content-between w-100 px-5 m-5">
+                <div class="w-50 me-5">
+                    <p class="fw-light">
+                        En rutrum cursus placerat. Sed condimentum augue ut ante luctus, vitae ornare nibh tempus. Sed bibendum ante justo, <strong class="fw-bold">eget dictum ligula gravida non</strong>.
+                        Morbi eu gravida elit, rhoncus rhoncus mi. Morbi vehicula enim vel enim suscipit, nec iaculis magna feugiat. Maecenas vel tortor blandit, efficitur ipsum id, accumsan sapien. <strong class="fw-bold">Phasellus nec lacus</strong> ut risus faucibus bibendum.
+                    </p>
+                    <p class="fw-light">
+                        Pellentesque quis erat arcu. Sed pellentesque feugiat velit, eu lobortis ligula feugiat sed. Duis eu interdum est, ac <strong class="fw-bold">pharetra velit</strong>. In imperdiet pulvinar nunc, dictum ullamcorper tellus dignissim quis.
+                    </p>
+                    <p class="fw-light">Sed non magna ultricies sem imperdiet tempus. Sed et iaculis nunc, ac <strong class="fw-bold">condimentum diam</strong>. Maecenas non erat et diam commodo ornare ut sed.</p>
+                </div>
+                <div>
+                    <figure>
+                        <img src="{{ asset('build/images/img-de-la-chapelle.png') }}" alt="Image de la Réserve de la Chapelle">
+                    </figure>
+                </div>
+            </div>
+        </div>
+        </section>
+        {# ---------- SECTION COUP DE COEUR ---------- #}
+         <section>
+             <h2 class="text-center m-5">Nos coups de cœur</h2>
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                {#  <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>#}
+                <div class="carousel-inner">
 
-						<p class="fw-light">Sed non magna ultricies sem imperdiet tempus. Sed et iaculis nunc, ac
-							<strong class="fw-bold">condimentum diam</strong>. Maecenas non erat et diam commodo ornare ut sed.</p>
-					</div>
-					<div>
-						<figure>
-							<img src="{{asset('images/img-de-la-chapelle.png')}}" alt="">
-						</figure>
-					</div>
-				</div>
-			</div>
-		</section>
-		{# section coup de coeur #}
-		<section>
-			<h2 class="text-center m-5">Nos coups de coeurs</h2>
-			<div id="courouselExempleCaptions" class="carousel slide" data-bs-ride="carousel">
-				<div class="carousel-inner">
-					{# for book in favoriteBooks #}
-					{# <div class="carousel-item" {%if loop.index0 == 0 %} active {% endif %} data-bs-ride="4000"> #}
-						<div class="flex mx-auto rounded mt-md-5 p-3"> <figure class="me-5 d-done d-md-block">
-							<img src="{{asset('images/test.png')}}" alt="photo de couverture" class="rounded">
-						</figure>
-						<div class="info d-flex flex-column align-items-start justify-content-center">
-							<h3>C'est un super titre</h3>
-							<h6>Je suis une Autrice
-							</h6>
-							<p>Il était une fois la vie....</p>
-						</div>
-					</div>
-				</div>
-				{# endfor #}
-			</div>
-			<button class="d-none d-xl-block carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Previous</span>
-			</button>
-			<button class="d-none d-xl-block carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Next</span>
-			</button>
-		</div>
-	</section>
-	{# ---------- SECTION CALL TO ACTION ---------- #}
-	<section>
-		<div class="cta-container d-flex flex-column flex-md-row justify-content-center align-items-center p-5 m5" style="background-color:#E8E8F2;">
-			<h2 class="me-md-5">Lorem ipsum
-				<br>dolor sit amet ?</h2>
-        <button class="btn btn-info px-5 ms-md-5">
-        <a href="#" class="text-white text-decoration-none text-uppercase fw-normal">Je m'inscris</a>
-        </button>
-		</div>
-	</section>
+                    {#  {% for book in favoriteBooks %}
+                        <div class="carousel-item active">
+                            <div class="d-flex mx-auto  rounded-3 mt-5 px-3">
+                                <figure class="me-5">
+                                    <img src="{{ asset('build/images/test.png') }}"  class="w-100" alt="...">
+                                </figure>
+                                <div class="infos d-flex flex-column align-items-start justify-content-center">
+                                    <h3>{{ book.title | capitalize}}</h3>
+                                    <h6>{{ book.author }}</h6>
+                                    <p>{{ book.description |slice(0, 400) | nl2br }} ...</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}#}
 
+                    {% for book in favoriteBooks %}
+                    <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}" data-bs-interval="4000">
+                        <div class="d-flex mx-auto rounded-3 mt-5 px-3">
+                            <figure class="me-5">
+                                <img src="{{ vich_uploader_asset(book,'folderImage') }}" alt="Photo de couverture du livre" class="rounded-3">
+                            </figure>
+                            <div class="infos d-flex flex-column align-items-start justify-content-center">
+                                <h3>{{ book.title | capitalize}}</h3>
+                                <h6>{{ book.author }}</h6>
+                                <p>{{ book.description |slice(0, 400) | nl2br }} ...</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
 
-	{{include ('_footer.html.twig')}}
+                    {#  <div class="carousel-item">
+                        <div class="d-flex mx-auto  rounded-3 mt-5 px-3">
+                            <figure class="me-5">
+                                <img src="{{ asset('build/images/test2.png') }}"  class="w-100" alt="..." style="transform: rotate(347deg);">
+	@@ -81,7 +96,8 @@
+                                </p>
+                            </div>
+                        </div>
+                    </div>#}
 
-</div>{% endblock %}{% block javascrips_end_body %}
-{#  USING TYPED JS TO ANIMATE HEADER #}
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-<script>
-	let typed = new Typed('#typed', {
-strings: [
-"polars", "BD", "livres jeunesse", "romans"
-],
-typeSpeed: 100,
-backSpeed: 60
-});
-</script>{% endblock %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+        {# ---------- SECTION CALL TO ACTION ---------- #}
+        <section>
+            <div class="cta-container d-flex justify-content-center align-items-center p-5 m5">
+                <h2 class="me-5">Lorem ipsum <br>dolor sit amet ?</h2>
+                <button type="button" class="btn btn-info px-5 ms-5">
+                    <a class="text-white text-decoration-none text-uppercase fw-normal" href="{{ path('app_register') }}">Je m'inscris</a>
+                </button>
+            </div>
+        </section>
+        {{ include ('_footer.html.twig') }}
+    </div>
+{% endblock %}

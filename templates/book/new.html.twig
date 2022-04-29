@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un nouveau livre | La Réserve de la Chapelle
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid dashboard">
+		<div class="row col">
+			{{ include ('_dashboard-navigation.html.twig') }}
+			<div class="col mt-3 ms-5">
+				{{ include ('_navigation.html.twig') }}
+
+				<section class="mt-5 pt-5">
+					<a class="text-uppercase fw-bold text-decoration-none" href="{{ path('book_index') }}">
+						&#60 Retourner aux livres</a>
+					<h1 class="mt-5">Créer un nouveau livre</h1>
+				</section>
+
+				<section class="row my5 me-5 pt-5">
+					<div class="col-8">
+						{{ form_start(form) }}
+						<div class="row d-flex flex-column flex-sm-row justify-content-between">
+							<div class="col-12 col-md-5  me-sm-2">{{ form_row(form.title) }}</div>
+							<div class="col-12 col-md-5 ms-sm-2">{{ form_row(form.author) }}</div>
+						</div>
+						<div class="row d-flex flex-column flex-sm-row justify-content-between">
+							<div class="col-12 col-md-5  me-sm-2">{{ form_row(form.published_at) }}</div>
+							<div class="col-12 col-md-5 ms-sm-2">{{ form_row(form.folderImage) }}</div>
+						</div>
+						<div class="row d-flex flex-column flex-sm-row justify-content-between">
+							<div class="col-12 col-md-5  me-sm-2 book-type">
+								{{ form_row(form.type) }}
+								<button class="mb-4 btn border border-2 border-info text-info fw-light" data-bs-toggle="modal" data-bs-target="#modal2">
+									+ Ajouter une catégorie
+								</button>
+							</div>
+							<div class="col-12 col-md-5 ms-sm-2  ps-2 form-switch is-favorite">{{ form_row(form.is_favorite) }}</div>
+						</div>
+						{{ form_end(form) }}
+					</div>
+				</section>
+
+ <!-- Modal -->
+            <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content px-5">
+                        <div class="modal-header border-0 d-flex flex-column align-items-center mt-3">
+                            <div class="d-flex flex-column align-items-center">
+                                <figure>
+                                    <img src="{{ asset('build/images/icon-book_type.svg') }}" alt="Icon de catégorie de livre" width="40" height="40">
+                                </figure>
+                                <h2 class="modal-title" id="exampleModalLabel">Nouvelle catégorie</h2>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body px-5">
+                            {{ form_start(formType) }}
+                            {{ form_row(formType.name) }}
+                            <button class="btn btn-primary connect-button" type="submit">Enregistrer
+                                {#  <a type="submit" id="book-type-add" class="text-white text-decoration-none" href="{{ path('book_new') }}">Enregistrer</a>#}
+                            </button>
+                            {{ form_end(formType) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
